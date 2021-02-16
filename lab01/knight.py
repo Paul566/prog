@@ -5,19 +5,14 @@ import sys
 
 gmsh.initialize()
 
-# Let's merge an STL mesh that we would like to remesh (from the parent
-# directory):
 path = os.path.dirname(os.path.abspath(__file__))
 gmsh.merge(os.path.join(path, 'knight.stl'))
+
 angle = 40
 forceParametrizablePatches = False
-
 includeBoundary = True
-
 curveAngle = 180
-
-gmsh.model.mesh.classifySurfaces(angle * math.pi / 180., includeBoundary,
-                                 forceParametrizablePatches,
+gmsh.model.mesh.classifySurfaces(angle * math.pi / 180., includeBoundary, forceParametrizablePatches,
                                  curveAngle * math.pi / 180.)
 
 gmsh.model.mesh.createGeometry()
@@ -33,10 +28,9 @@ gmsh.model.mesh.field.setString(f, "F", "1")
 gmsh.model.mesh.field.setAsBackgroundMesh(f)
 
 gmsh.model.mesh.generate(3)
-gmsh.write('t13.msh')
+gmsh.write('knight.msh')
 
 if '-nopopup' not in sys.argv:
     gmsh.fltk.run()
 
 gmsh.finalize()
-
